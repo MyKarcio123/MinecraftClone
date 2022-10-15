@@ -8,7 +8,8 @@ public class Chunk
     public static int chunkHeight = 384;
     public Vector2 position;
     GameObject chunkObject;
-    int[,,] chunkData;
+    public float[,,] chunkData;
+    public float[,] heightMap;
     MeshRenderer chunkMeshRenderer;
     MeshFilter chunkMeshFilter;
     List<Vector3> verticies;
@@ -16,10 +17,20 @@ public class Chunk
     List<int> triangles;
     BlocksData blocksData;
     public bool active = true;
-    public Chunk(GameObject parent, BlocksData blocksData,Vector2 position)
+    public float scale;
+    public int octaves;
+    public float persistance;
+    public float lacunarity;
+    public int seed;
+    public Vector3 offset;
+
+    public Chunk(GameObject parent, BlocksData blocksData,Vector2 position,NoiseData noiseData)
     {
+        Vector3 positionInCoords = new Vector3(position.x*16, 0, position.y*16) + offset;
         chunkObject = new GameObject("Chunk");
-        chunkData = new int[chunkSize, chunkHeight, chunkSize];
+        chunkData = new float[chunkSize,chunkHeight,chunkSize];
+        //chunkData = Noise.Get3DNoise(seed, scale, octaves, persistance, lacunarity, positionInCoords,heightParams);
+        heightMap = Noise.Get2DNoise(noiseData, positionInCoords, chunkSize);
         chunkObject.transform.SetParent(parent.transform);
         chunkObject.transform.position += new Vector3(position.x*chunkSize, -128, position.y*chunkSize);
         chunkMeshRenderer = chunkObject.AddComponent<MeshRenderer>();
@@ -29,34 +40,6 @@ public class Chunk
         triangles = new List<int>();
         this.blocksData = blocksData;
         this.position = position;
-    }
-    public void FillChunkData()
-    {
-        for (int y = 0; y <= 128; ++y)
-        {
-            for (int x = 0; x < chunkSize; ++x)
-            {
-                for (int z = 0; z < chunkSize; ++z)
-                {
-                    if (y > 0 && y < 117)
-                    {
-                        chunkData[x, y, z] = 1;
-                    }
-                    else if (y == 0)
-                    {
-                        chunkData[x, y, z] = 7;
-                    }
-                    else if (y == 128)
-                    {
-                        chunkData[x, y, z] = 2;
-                    }
-                    else
-                    {
-                        chunkData[x, y, z] = 3;
-                    }
-                }
-            }
-        }
     }
     public void AddFaceToChunk(Vector3 position, int blockId, int faceType)
     {
@@ -95,14 +78,51 @@ public class Chunk
     }
     public void CreateBlocksFromData()
     {
-        for (int y = 0; y <= 128; ++y)
+        Vector3[] moves = {
+            new Vector3(0,0,-1),
+            new Vector3(1,0,0),
+            new Vector3(0,0,1),            
+            new Vector3(-1,0,0),
+            new Vector3(0,1,0),
+            new Vector3(0,-1,0),
+        };
+        for(int x = 0; x < chunkSize; ++x)
+        {
+            for(int z = 0; z < chunkSize; ++z)
+            {
+                int surface = (int)(100 + heightMap[x, z] * 20);
+                Debug.Log(surface);
+                for(int y=0; y < chunkHeight; ++y)
+                {
+                    if (y < surface)
+                        chunkData[x, y, z] = 1;
+                    else
+                        chunkData[x, y, z] = -1;
+                }
+            }
+        }
+        for (int z = 0; z < chunkSize; ++z)
         {
             for (int x = 0; x < chunkSize; ++x)
             {
-                for (int z = 0; z < chunkSize; ++z)
+                for (int y = 0; y < chunkHeight; ++y)
                 {
                     Vector3 position = new Vector3(x, y, z);
-                    int type = chunkData[x, y, z];
+                    int type = 7;
+                    if (chunkData[(int)position.x, (int)position.y, (int)position.z] < 0) continue;
+                    int iter = 0;
+                    foreach(Vector3 move in moves)
+                    {
+                        Vector3 checkingBlock = position + move;
+                        if(0<=checkingBlock.x && checkingBlock.x<chunkSize && 0 <= checkingBlock.z && checkingBlock.z < chunkSize && 0 <= checkingBlock.y && checkingBlock.y < chunkHeight)
+                        {
+                            if (chunkData[(int)checkingBlock.x,(int)checkingBlock.y,(int)checkingBlock.z] < 0)
+                            {
+                                AddFaceToChunk(position, type, iter);
+                            }
+                        }
+                        ++iter;
+                    }
                     if (y == 0)
                     {
                         AddFaceToChunk(position, type, 5);
@@ -111,7 +131,6 @@ public class Chunk
                     {
                         AddFaceToChunk(position, type, 4);
                     }
-                    /*
                     if (x == 0)
                     {
                         AddFaceToChunk(position, type, 3);
@@ -128,18 +147,18 @@ public class Chunk
                     {
                         AddFaceToChunk(position, type, 2);
                     }
-                    */
                 }
             }
         }
+ 
     }
     public void MakeMesh()
     {
         Mesh mesh = new Mesh();
+        mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
         mesh.vertices = verticies.ToArray();
         mesh.triangles = triangles.ToArray();
         mesh.uv = uvs.ToArray();
-
         mesh.RecalculateNormals();
 
         chunkMeshFilter.mesh = mesh;

@@ -4,34 +4,49 @@ using UnityEngine;
 
 public class ChunkGenerator : MonoBehaviour
 {
-    int renderDistance = 2;
+    int renderDistance = 5;
     public BlocksData blocksData;
+    public NoiseData noiseData;
     public Transform player;
     Vector2 currentChunk = new Vector2(0, 0);
     Dictionary<Vector2, Chunk> chunkList = new Dictionary<Vector2, Chunk>();
     List<Chunk> activeChunks = new List<Chunk>();
+    [Header("Noise Properties")]
+    public float noiseScale;
+
+    public int octaves;
+
+    [Range(0,1)]
+    public float persistance;
+    public float lacunarity;
+
+    public int seed;
+    public Vector3 offset;
+
+    public AnimationCurve heightCurve;
     private void Start()
     {
-        SetActiveChunks();
+        SetActiveChunks(Vector2.zero);
     }
     private void Update()
     {
-        if ((int)player.position.x / Chunk.chunkSize != currentChunk.x || (int)player.position.z / Chunk.chunkSize != currentChunk.y)
+        Vector2 position = new Vector2(Mathf.FloorToInt(player.position.x / Chunk.chunkSize), Mathf.FloorToInt(player.position.z / Chunk.chunkSize));
+        if (position.x != currentChunk.x || position.y != currentChunk.y)
         {
             currentChunk = new Vector2(player.position.x, player.position.z);
             ClearChunks();
-            SetActiveChunks();
+            SetActiveChunks(position);
         }
     }
-    void SetActiveChunks()
+    void SetActiveChunks(Vector2 position)
     {
         for (int i = -renderDistance; i <= renderDistance; ++i)
         {
             for (int j = -renderDistance; j <= renderDistance; ++j)
             {
-                Vector2 position = new Vector2((int)player.position.x / Chunk.chunkSize +i, (int)player.position.z / Chunk.chunkSize+j);
+                Vector2 newPosition = new Vector2(i,j)+position;
                 Chunk currentChunk;
-                if (chunkList.TryGetValue(position, out currentChunk))
+                if (chunkList.TryGetValue(newPosition, out currentChunk))
                 {
                     if (!currentChunk.active)
                     {
@@ -41,7 +56,7 @@ public class ChunkGenerator : MonoBehaviour
                 }
                 else
                 {
-                    MakeChunk(position);
+                    MakeChunk(newPosition);
                 }
             }
         }
@@ -56,12 +71,10 @@ public class ChunkGenerator : MonoBehaviour
     }
     void MakeChunk(Vector2 position)
     {
-        Chunk currentChunk = new Chunk(gameObject, blocksData,position);
-        currentChunk.FillChunkData();
+        Chunk currentChunk = new Chunk(gameObject, blocksData, position, noiseData);
         currentChunk.CreateBlocksFromData();
         currentChunk.MakeMesh();
         chunkList.Add(position, currentChunk);
         activeChunks.Add(currentChunk);
     }
-
 }

@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 131ee307843c66249a2a9287723e56c6, type: 3}
+  m_Name: NoiseData
+  m_EditorClassIdentifier: 
+  NoiseParams:
+  - noiseScale: 81.7
+    octaves: 8
+    persistance: 0.5
+    lacunarity: 2
+    seed: 146
+    offset: {x: 0, y: 0, z: 0}
+    heightCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+  - noiseScale: 81.7
+    octaves: 8
+    persistance: 0.5
+    lacunarity: 2
+    seed: 146
+    offset: {x: 0, y: 0, z: 0}
+    heightCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
