@@ -263,7 +263,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1089458123}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -10.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -285,60 +285,15 @@ MonoBehaviour:
   blocksData: {fileID: 11400000, guid: 44b3584d76d55ed4bb9b1b8466a179d6, type: 2}
   noiseData: {fileID: 11400000, guid: 8f86e32ddf5d38c4486a2469b5f4bbdf, type: 2}
   player: {fileID: 1984667203}
-  noiseScale: 81.7
-  octaves: 8
-  persistance: 0.5
-  lacunarity: 2
-  seed: 146
-  offset: {x: 0, y: 0, z: 0}
+  noiseScale: 0
+  octaves: 0
+  persistance: 0
+  lacunarity: 0
+  seed: 0
+  offset: {x: 135.59, y: 0, z: 14.84}
   heightCurve:
     serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 5
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 96.419586
-      value: 0.67546093
-      inSlope: -0.010608852
-      outSlope: -0.010608852
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 128
-      value: 0
-      inSlope: -0.011666338
-      outSlope: -0.011666338
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.12264127
-      outWeight: 0.39273402
-    - serializedVersion: 3
-      time: 230.28658
-      value: -1.9356374
-      inSlope: -0.00425795
-      outSlope: -0.00425795
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 1
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 384
-      value: -5
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
+    m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -434,8 +389,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1591830335}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -15, y: 0, z: 4.97}
-  m_LocalScale: {x: 16, y: 1, z: 16}
+  m_LocalPosition: {x: -4.2, y: 0, z: 5.01}
+  m_LocalScale: {x: 6.6212626, y: 6.6212626, z: 6.6212626}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -456,8 +411,9 @@ MonoBehaviour:
   textureRenderer: {fileID: 1591830337}
   meshFilter: {fileID: 1591830338}
   meshRenderer: {fileID: 1591830337}
-  offset: {x: -99.95, y: 0, z: 0}
+  offset: {x: -961.31, y: 0, z: 0}
   noiseData: {fileID: 11400000, guid: 8f86e32ddf5d38c4486a2469b5f4bbdf, type: 2}
+  NoiseLayer: 3
   clickMe: 0
 --- !u!1 &1984667199
 GameObject:

@@ -4,18 +4,27 @@ using UnityEngine;
 
 public class Noise
 {
-    public static float[,] Get2DNoise (NoiseData noiseData, Vector3 offset,int _size)
+    public static float[,,] Get2DNoise (NoiseData noiseData, Vector3 offset,int _size)
     {
         int size = _size;
         int height = _size;
         int halfSize = size / 2;
         int halfHeight = height / 2;
         int noiseAmount = noiseData.NoiseParams.Length;
-        float[,] noiseMap = new float[size, height];
+        int weightSum = 0;
+        float[,,] noiseMap = new float[noiseAmount+1,size, height];
         System.Random prng = new System.Random(noiseData.NoiseParams[0].seed);
         Vector2[] octavesOffsets = new Vector2[noiseData.NoiseParams[0].octaves];
+        float[,] minMaxValue = new float[noiseAmount, 2];
         float maxPossibleHeight = 0;
         float amplitude = 1;
+        for (int i = 0; i < noiseAmount; ++i)
+        {
+            minMaxValue[i,0]= float.MinValue;
+            minMaxValue[i,1]= float.MaxValue;
+            if (noiseData.NoiseParams[i].enable)
+                weightSum += noiseData.NoiseParams[i].weight;
+        }
         for (int i = 0; i < noiseData.NoiseParams[0].octaves; ++i)
         {
             float offsetX = prng.Next(-100000, 100000) + offset.x;
@@ -25,46 +34,59 @@ public class Noise
             amplitude *= noiseData.NoiseParams[0].persistance;
         }
         if (noiseData.NoiseParams[0].noiseScale <= 0) noiseData.NoiseParams[0].noiseScale = 0.001f;
-        float maxNoiseHeight = float.MinValue;
-        float minNoiseHeight = float.MaxValue;
         for (int x = 0; x < size; ++x)
         {
             for (int y = 0; y < height; ++y)
             {
-                float noiseSum = 0;
 
                 for (int noise = 0; noise < noiseAmount; ++noise)
                 {
-                    amplitude = 1;
-                    float frequency = 1;
-                    float noiseValue = 0;
-                    for (int k = 0; k < noiseData.NoiseParams[noise].octaves; ++k)
+                    if (noiseData.NoiseParams[noise].enable)
                     {
-                        float sampleX = (x - halfSize + octavesOffsets[k].x) / noiseData.NoiseParams[noise].noiseScale * frequency;
-                        float sampleY = (y - halfHeight + octavesOffsets[k].y) / noiseData.NoiseParams[noise].noiseScale * frequency;
+                        amplitude = 1;
+                        float frequency = 1;
+                        float noiseValue = 0;
+                        for (int k = 0; k < noiseData.NoiseParams[noise].octaves; ++k)
+                        {
+                            float sampleX = (x - halfSize + octavesOffsets[k].x) / noiseData.NoiseParams[noise].noiseScale * frequency;
+                            float sampleY = (y - halfHeight + octavesOffsets[k].y) / noiseData.NoiseParams[noise].noiseScale * frequency;
 
-                        float perlinValue = Mathf.PerlinNoise(sampleX, sampleY) * 2 - 1;
-                        if (x == 0 && y == 0 && k == 0) Debug.Log(sampleX + " " + sampleY + " " + perlinValue);
+                            float perlinValue = Mathf.PerlinNoise(sampleX, sampleY)*2-1;
 
-                        noiseValue += perlinValue * amplitude;
+                            noiseValue += perlinValue * amplitude;
 
-                        amplitude *= noiseData.NoiseParams[noise].persistance;
-                        frequency *= noiseData.NoiseParams[noise].lacunarity;
+                            amplitude *= noiseData.NoiseParams[noise].persistance;
+                            frequency *= noiseData.NoiseParams[noise].lacunarity;
+                        }
+                        if (noiseValue > minMaxValue[noise,0])
+                        {
+                            minMaxValue[noise, 0] = noiseValue;
+                        }
+                        else if (noiseValue < minMaxValue[noise, 1])
+                        {
+                            minMaxValue[noise, 1] = noiseValue;
+                        }
+                        noiseMap[noise, x, y] = noiseValue;
                     }
-                    if (noiseValue > maxNoiseHeight)
-                    {
-                        maxNoiseHeight = noiseValue;
-                    }
-                    else if (noiseValue < minNoiseHeight)
-                    {
-                        minNoiseHeight = noiseValue;
-                    }
-                    noiseSum += noiseValue;
                 }
-                noiseMap[x, y] = noiseSum / noiseAmount;
             }
         }
 
+        for (int x = 0; x < size; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                float noiseSum = 0;
+                for (int noise = 0; noise < noiseAmount; ++noise)
+                {
+                    float normalizeHeight = (noiseMap[noise,x,y] + 1) / (maxPossibleHeight / 0.9f);
+                    noiseMap[noise,x, y] = Mathf.Clamp(normalizeHeight, 0, int.MaxValue);
+                    //noiseMap[noise, x, y] = Mathf.InverseLerp(minMaxValue[noise, 1], minMaxValue[noise, 0], noiseMap[noise, x, y]);
+                    noiseSum += noiseData.NoiseParams[noise].heightCurve.Evaluate(noiseMap[noise, x, y]) * noiseData.NoiseParams[noise].weight;
+                }
+                noiseMap[noiseAmount, x, y] = noiseSum / weightSum;
+            }
+        }
         return noiseMap;
     }
     public static float[,,] Get3DNoise(int seed, float scale, int octaves, float persistance, float lacunarity, Vector3 offset,AnimationCurve heightParams)

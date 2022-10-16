@@ -8,6 +8,7 @@ public class Chunk
     public static int chunkHeight = 384;
     public Vector2 position;
     GameObject chunkObject;
+    public float[,,] noiseValues;
     public float[,,] chunkData;
     public float[,] heightMap;
     MeshRenderer chunkMeshRenderer;
@@ -30,7 +31,7 @@ public class Chunk
         chunkObject = new GameObject("Chunk");
         chunkData = new float[chunkSize,chunkHeight,chunkSize];
         //chunkData = Noise.Get3DNoise(seed, scale, octaves, persistance, lacunarity, positionInCoords,heightParams);
-        heightMap = Noise.Get2DNoise(noiseData, positionInCoords, chunkSize);
+        noiseValues = Noise.Get2DNoise(noiseData, positionInCoords, chunkSize);
         chunkObject.transform.SetParent(parent.transform);
         chunkObject.transform.position += new Vector3(position.x*chunkSize, -128, position.y*chunkSize);
         chunkMeshRenderer = chunkObject.AddComponent<MeshRenderer>();
@@ -90,12 +91,14 @@ public class Chunk
         {
             for(int z = 0; z < chunkSize; ++z)
             {
-                int surface = (int)(100 + heightMap[x, z] * 20);
+                int surface = (int)noiseValues[3, x, z];
                 Debug.Log(surface);
                 for(int y=0; y < chunkHeight; ++y)
                 {
-                    if (y < surface)
+                    if (y <= surface)
                         chunkData[x, y, z] = 1;
+                    else if(y>surface && y<64)
+                        chunkData[x, y, z] = 0;
                     else
                         chunkData[x, y, z] = -1;
                 }
@@ -110,6 +113,7 @@ public class Chunk
                     Vector3 position = new Vector3(x, y, z);
                     int type = 7;
                     if (chunkData[(int)position.x, (int)position.y, (int)position.z] < 0) continue;
+                    else if (chunkData[(int)position.x, (int)position.y, (int)position.z] == 0) type = 3;
                     int iter = 0;
                     foreach(Vector3 move in moves)
                     {

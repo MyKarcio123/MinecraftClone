@@ -10,6 +10,8 @@ public class NoiseMapVisualization : MonoBehaviour
     public MeshRenderer meshRenderer;
     public Vector3 offset;
     public NoiseData noiseData;
+    [Range(0, 3)]
+    public int NoiseLayer;
 
     public void DrawInEditor()
     {
@@ -23,24 +25,27 @@ public class NoiseMapVisualization : MonoBehaviour
     {
         Texture2D texture = new Texture2D(width, height);
         texture.filterMode = FilterMode.Point;
-        texture.wrapMode = TextureWrapMode.Clamp;
+        //texture.wrapMode = TextureWrapMode.Clamp;
+        texture.GetType();
         texture.SetPixels(colorMap);
         texture.Apply();
         return texture;
     }
 
-    public Texture2D TextureFromHeightMap(float [,] heightMap)
+    public Texture2D TextureFromHeightMap(float [,,] heightMap)
     {
-        int width = heightMap.GetLength(0);
-        int height = heightMap.GetLength(1);
-
+        int width = heightMap.GetLength(1);
+        int height = heightMap.GetLength(2);
 
         Color[] colors = new Color[width * height];
         for (int i = 0; i < height; ++i)
         {
             for (int j = 0; j < width; ++j)
             {
-                colors[width * i + j] = Color.Lerp(Color.black, Color.white, (heightMap[j, i]+1)/2);
+                if (NoiseLayer < noiseData.NoiseParams.Length)
+                    colors[width * i + j] = Color.Lerp(Color.black, Color.white, heightMap[NoiseLayer, j, i]);
+                else
+                    colors[width * i + j] = Color.Lerp(Color.black, Color.white, (heightMap[NoiseLayer, j, i]-100)/100);
             }
         }
 

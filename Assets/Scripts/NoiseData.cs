@@ -10,6 +10,8 @@ public class NoiseData : ScriptableObject
 [System.Serializable]
 public struct NoiseParams
 {
+    public string name;
+
     public float noiseScale;
 
     public int octaves;
@@ -22,4 +24,8 @@ public struct NoiseParams
     public Vector3 offset;
 
     public AnimationCurve heightCurve;
+
+    public int weight;
+
+    public bool enable;
 }

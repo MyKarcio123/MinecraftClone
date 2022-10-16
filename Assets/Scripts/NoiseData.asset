@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: NoiseData
   m_EditorClassIdentifier: 
   NoiseParams:
-  - noiseScale: 81.7
+  - name: Continentalness
+    noiseScale: 81.7
     octaves: 8
     persistance: 0.5
     lacunarity: 2
@@ -21,11 +22,95 @@ MonoBehaviour:
     offset: {x: 0, y: 0, z: 0}
     heightCurve:
       serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 0
-      m_PostInfinity: 0
+      m_Curve:
+      - serializedVersion: 3
+        time: -1
+        value: 199.99786
+        inSlope: -1938.1309
+        outSlope: -2040.0667
+        tangentMode: 69
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: -0.9019674
+        value: 0.00483328
+        inSlope: -2040.0667
+        outSlope: 0
+        tangentMode: 69
+        weightedMode: 0
+        inWeight: 1
+        outWeight: 0.09899039
+      - serializedVersion: 3
+        time: -0.46
+        value: 0.00483328
+        inSlope: -0
+        outSlope: 946.1655
+        tangentMode: 69
+        weightedMode: 0
+        inWeight: 0.4960282
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: -0.37
+        value: 85.15974
+        inSlope: 946.1655
+        outSlope: 0
+        tangentMode: 69
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: -0.17
+        value: 85.15974
+        inSlope: -0
+        outSlope: 4163.017
+        tangentMode: 69
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: -0.15
+        value: 168.42006
+        inSlope: 4163.017
+        outSlope: 63.154903
+        tangentMode: 69
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: -0.1
+        value: 171.5778
+        inSlope: 63.154903
+        outSlope: 18.420334
+        tangentMode: 69
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.3
+        value: 178.94594
+        inSlope: 18.420334
+        outSlope: 30.07418
+        tangentMode: 69
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 199.99786
+        inSlope: 30.07418
+        outSlope: 30.07418
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
       m_RotationOrder: 0
-  - noiseScale: 81.7
+    weight: 10
+    enable: 1
+  - name: Erosion
+    noiseScale: 107
     octaves: 8
     persistance: 0.5
     lacunarity: 2
@@ -33,7 +118,204 @@ MonoBehaviour:
     offset: {x: 0, y: 0, z: 0}
     heightCurve:
       serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 0
-      m_PostInfinity: 0
+      m_Curve:
+      - serializedVersion: 3
+        time: -1
+        value: 199.98401
+        inSlope: -291.28647
+        outSlope: -291.28647
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: -0.77
+        value: 132.98811
+        inSlope: -62.00904
+        outSlope: -148.40845
+        tangentMode: 1
+        weightedMode: 3
+        inWeight: 0.33333334
+        outWeight: 0.7098516
+      - serializedVersion: 3
+        time: -0.575
+        value: 93.09053
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 3
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: -0.5401416
+        value: 105.626564
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 3
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: -0.42
+        value: 19.995037
+        inSlope: -49.392933
+        outSlope: -15.951403
+        tangentMode: 65
+        weightedMode: 3
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0
+        value: 13.295448
+        inSlope: -15.951403
+        outSlope: 0
+        tangentMode: 69
+        weightedMode: 1
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.23
+        value: 13.295448
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.24672724
+        value: 58.512676
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 65
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.466347
+        value: 58.512676
+        inSlope: -0
+        outSlope: -1412.1595
+        tangentMode: 69
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.49836692
+        value: 13.295448
+        inSlope: -1412.1595
+        outSlope: -183.50867
+        tangentMode: 5
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.6033577
+        value: 1.9961386
+        inSlope: -29.186108
+        outSlope: -5.0420246
+        tangentMode: 65
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: -0.0037417747
+        inSlope: -5.0420246
+        outSlope: -5.042326
+        tangentMode: 5
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
       m_RotationOrder: 0
+    weight: 5
+    enable: 1
+  - name: Peaks & Valleys
+    noiseScale: 17.5
+    octaves: 8
+    persistance: 0.5
+    lacunarity: 2
+    seed: 146
+    offset: {x: 0, y: 0, z: 0}
+    heightCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: -1
+        value: 0.22836733
+        inSlope: 85.34991
+        outSlope: 85.34991
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: -0.82
+        value: 15.5913515
+        inSlope: 128.68796
+        outSlope: 128.68796
+        tangentMode: 136
+        weightedMode: 2
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: -0.7
+        value: 38.834755
+        inSlope: 85.05639
+        outSlope: 85.05639
+        tangentMode: 1
+        weightedMode: 3
+        inWeight: 0.27027506
+        outWeight: 0.10758064
+      - serializedVersion: 3
+        time: -0.59999996
+        value: 45.55816
+        inSlope: 3.1870816
+        outSlope: 9.229768
+        tangentMode: 65
+        weightedMode: 1
+        inWeight: 0.68157244
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: -0.099999994
+        value: 50.173042
+        inSlope: 9.229768
+        outSlope: -17.6326
+        tangentMode: 5
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.45
+        value: 184.02481
+        inSlope: 94.53068
+        outSlope: 198.58006
+        tangentMode: 1
+        weightedMode: 0
+        inWeight: 0.094950035
+        outWeight: 0.31393728
+      - serializedVersion: 3
+        time: 0.56
+        value: 206.45976
+        inSlope: 29.438948
+        outSlope: -29.448088
+        tangentMode: 1
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.12642124
+      - serializedVersion: 3
+        time: 1
+        value: 200.00714
+        inSlope: -14.665049
+        outSlope: -14.665049
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    weight: 1
+    enable: 1
